@@ -3,6 +3,7 @@
 [![Minecraft 1.12.2](https://img.shields.io/badge/Minecraft-1.12.2-blue.svg)](https://www.minecraft.net/)
 [![Forge](https://img.shields.io/badge/Forge-14.23.5.2860-orange.svg)](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-Legacy--EmoteCraft-181717?logo=github)](https://github.com/azubangithub/Legacy-EmoteCraft)
 
 A backport of **Emotecraft 2.4.12** to **Minecraft 1.12.2 Forge**, bringing modern custom animations, bendable cuboids, and rich emote playback to 1.12.2.
 
@@ -28,7 +29,7 @@ A backport of **Emotecraft 2.4.12** to **Minecraft 1.12.2 Forge**, bringing mode
 
 ## Credits & Authors
 
-- **1.12.2 Forge Port**: [azuban](https://github.com/azubangithub)
+- **1.12.2 Forge Port**: [azuban](https://github.com/azubangithub) ([Legacy-EmoteCraft](https://github.com/azubangithub/Legacy-EmoteCraft))
 - **Original Mod Authors**:
   - **KosmX** (Original Creator & Main Developer)
   - **dima_dencep**

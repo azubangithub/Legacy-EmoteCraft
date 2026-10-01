@@ -5,7 +5,7 @@
     "description": "Play emotes in Minecraft! Supports emotes from new versions with bendable limbs and physics.\n\nAuthors of original mod: KosmX, dima_dencep, ZigyTheBird, Kale Ko.",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://github.com/KosmX/emotes",
+    "url": "https://github.com/azubangithub/Legacy-EmoteCraft",
     "updateUrl": "",
     "authorList": [
       "azuban"
