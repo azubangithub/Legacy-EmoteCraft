@@ -78,9 +78,9 @@ dependencies {
     implementation(mixin) {
         transitive = false
     }
-    annotationProcessor 'org.ow2.asm:asm:9.6'
-    annotationProcessor 'org.ow2.asm:asm-tree:9.6'
-    annotationProcessor 'org.ow2.asm:asm-commons:9.6'
+    annotationProcessor 'org.ow2.asm:asm:9.10.1'
+    annotationProcessor 'org.ow2.asm:asm-tree:9.10.1'
+    annotationProcessor 'org.ow2.asm:asm-commons:9.10.1'
     annotationProcessor(mixin)
     modUtils.enableMixins(mixin, 'emotecraft.mixins.refmap.json')
     
