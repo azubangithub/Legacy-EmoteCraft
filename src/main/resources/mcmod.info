@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "emotecraft",
+    "name": "Emotecraft",
+    "description": "Play emotes in Minecraft! Supports emotes from new versions with bendable limbs and physics.\n\nAuthors of original mod: KosmX, dima_dencep, ZigyTheBird, Kale Ko.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/KosmX/emotes",
+    "updateUrl": "",
+    "authorList": [
+      "azuban"
+    ],
+    "credits": "Ported to 1.12.2 Forge by azuban. Original mod created by KosmX, dima_dencep, ZigyTheBird, Kale Ko.",
+    "logoFile": "assets/emotecraft/icon.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

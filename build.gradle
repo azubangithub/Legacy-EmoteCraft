@@ -1,0 +1,148 @@
+plugins {
+    id 'java'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.4'
+}
+
+version = "${mc_version}-${mod_version}"
+group = project.maven_group
+base {
+    archivesName = project.archives_base_name
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+minecraft {
+    mcVersion = project.mc_version
+    mcpMappingChannel = project.mcp_mappings_channel
+    mcpMappingVersion = project.mcp_mappings_version
+    username = 'azuban_mine'
+    
+    extraRunJvmArguments.addAll([
+        '-Dmixin.debug.export=true',
+        '-Dmixin.checks.interfaces=true',
+        '-Dfml.coreMods.load=io.github.kosmx.emotes.forge.EmotecraftCorePlugin'
+    ])
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'CleanroomMC'
+        url = 'https://maven.cleanroommc.com'
+    }
+    maven {
+        name = 'SpongePowered'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+    maven {
+        name = 'Redlance'
+        url = 'https://repo.redlance.org/public'
+    }
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
+}
+
+dependencies {
+    // 1.12.2 Forge provides Guava, Gson, Log4j, Netty, and standard Minecraft libraries
+    compileOnly 'org.jetbrains:annotations:24.0.1'
+    embed 'org.joml:joml:1.10.8'
+    embed 'com.zigythebird:mochafloats:1.1.3'
+    embed 'net.raphimc:NoteBlockLib:3.1.1'
+    implementation 'it.unimi.dsi:fastutil:8.5.12'
+    implementation 'io.netty:netty-all:4.1.32.Final'
+    
+    // Optional LFGM integration (read-only dependency from sibling project)
+    compileOnly files('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
+    runtimeOnly files('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
+    
+    // MixinBooter for modern Mixin 0.8 + MixinExtras support on 1.12.2
+    String mixin = 'zone.rong:mixinbooter:10.5'
+    implementation(mixin) {
+        transitive = false
+    }
+    annotationProcessor 'org.ow2.asm:asm:9.6'
+    annotationProcessor 'org.ow2.asm:asm-tree:9.6'
+    annotationProcessor 'org.ow2.asm:asm-commons:9.6'
+    annotationProcessor(mixin)
+    modUtils.enableMixins(mixin, 'emotecraft.mixins.refmap.json')
+    
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(ProcessResources).configureEach {
+    filteringCharset = 'UTF-8'
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.mc_version
+
+    filesMatching('mcmod.info') {
+        expand 'version': project.mod_version, 'mcversion': project.mc_version
+    }
+
+    doLast {
+        copy {
+            from "${buildDir}/resources/main"
+            into "${buildDir}/classes/java/main"
+        }
+    }
+}
+
+classes.dependsOn processResources
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+        exclude "META-INF/MANIFEST.MF"
+        exclude "module-info.class"
+        exclude "META-INF/versions/**"
+    }
+    manifest {
+        attributes([
+            "Specification-Title": project.mod_id,
+            "Specification-Vendor": "KosmX, dima_dencep, ZigyTheBird",
+            "Specification-Version": "1",
+            "Implementation-Title": project.archives_base_name,
+            "Implementation-Version": project.version,
+            "Implementation-Vendor": "KosmX, dima_dencep, ZigyTheBird",
+            "FMLCorePlugin": "io.github.kosmx.emotes.forge.EmotecraftCorePlugin",
+            "FMLCorePluginContainsFMLMod": "true",
+            "MixinConfigs": "emotecraft.mixins.json,bendable_cuboids.mixins.json",
+            "ForceLoadAsMod": "true"
+        ])
+    }
+}

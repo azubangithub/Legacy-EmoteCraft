@@ -1,0 +1,122 @@
+package io.github.kosmx.emotes.main.config;
+
+import com.google.gson.*;
+import io.github.kosmx.emotes.server.config.ConfigSerializer;
+import it.unimi.dsi.fastutil.Pair;
+import org.lwjgl.input.Keyboard;
+
+import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.UUID;
+
+public class ClientConfigSerializer extends ConfigSerializer<ClientConfig> {
+    public ClientConfigSerializer() {
+        super(ClientConfig::new);
+    }
+
+    @Override
+    public ClientConfig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        ClientConfig config = super.deserialize(json, typeOfT, context);
+        clientDeserialize(json.getAsJsonObject(), config);
+        return config;
+    }
+
+    @Override
+    public JsonElement serialize(ClientConfig config, Type typeOfSrc, JsonSerializationContext context) {
+        JsonObject node = super.serialize(config, typeOfSrc, context).getAsJsonObject();
+        clientSerialize(config, node);
+        return node;
+    }
+
+    private void clientDeserialize(JsonObject node, ClientConfig config) {
+        if (node.has("fastmenu")) fastMenuDeserializer(node.get("fastmenu").getAsJsonObject(), config);
+        if (node.has("keys")) keyBindsDeserializer(node.get("keys"), config);
+    }
+
+    private void fastMenuDeserializer(JsonObject node, ClientConfig config) {
+        for (int j = 0; j < config.fastMenuEmotes.length; j++) {
+            if (node.has(Integer.toString(j))) {
+                JsonElement subNode = node.get(Integer.toString(j));
+                if (subNode.isJsonObject()) {
+                    for (int i = 0; i != 8; i++) {
+                        if (subNode.getAsJsonObject().has(Integer.toString(i))) {
+                            config.fastMenuEmotes[j][i] = getEmoteID(subNode.getAsJsonObject().get(Integer.toString(i)));
+                        }
+                    }
+                } else {
+                    config.fastMenuEmotes[0][j] = getEmoteID(node.get(Integer.toString(j)));
+                }
+            }
+        }
+    }
+
+    private void keyBindsDeserializer(JsonElement node, ClientConfig config) {
+        if (config.configVersion < 4) {
+            oldKeyBindsSerializer(node.getAsJsonArray(), config);
+        } else {
+            for (Map.Entry<String, JsonElement> element : node.getAsJsonObject().entrySet()) {
+                String str = element.getValue().getAsString();
+                int keyCode = parseKey(str);
+                config.emoteKeyMap.put(UUID.fromString(element.getKey()), keyCode);
+            }
+        }
+    }
+
+    private void oldKeyBindsSerializer(JsonArray node, ClientConfig config) {
+        for (JsonElement jsonElement : node) {
+            JsonObject n = jsonElement.getAsJsonObject();
+            String str = n.get("key").getAsString();
+            config.emoteKeyMap.add(Pair.of(getEmoteID(n.get("id")), parseKey(str)));
+        }
+    }
+
+    private void clientSerialize(ClientConfig config, JsonObject node) {
+        node.add("fastmenu", fastMenuSerializer(config));
+        node.add("keys", keyBindsSerializer(config));
+    }
+
+    private JsonObject fastMenuSerializer(ClientConfig config) {
+        JsonObject node = new JsonObject();
+        for (int j = 0; j < config.fastMenuEmotes.length; j++) {
+            if (config.fastMenuEmotes[j] != null) {
+                JsonObject subNode = new JsonObject();
+                for (int i = 0; i != 8; i++) {
+                    if (config.fastMenuEmotes[j][i] != null) {
+                        subNode.addProperty(Integer.toString(i), config.fastMenuEmotes[j][i].toString());
+                        node.add(Integer.toString(j), subNode);
+                    }
+                }
+            }
+        }
+        return node;
+    }
+
+    private JsonObject keyBindsSerializer(ClientConfig config) {
+        JsonObject array = new JsonObject();
+        for (Pair<UUID, Integer> emote : config.emoteKeyMap) {
+            String name = Keyboard.getKeyName(emote.right());
+            array.addProperty(emote.left().toString(), name != null ? name : emote.right().toString());
+        }
+        return array;
+    }
+
+    public static UUID getEmoteID(JsonElement element) {
+        try {
+            return UUID.fromString(element.getAsString());
+        } catch (Exception e) {
+            return new UUID(0, 0);
+        }
+    }
+
+    private static int parseKey(String key) {
+        if (key.startsWith("key.keyboard.")) {
+            key = key.substring(13).toUpperCase();
+        }
+        int code = Keyboard.getKeyIndex(key.toUpperCase());
+        if (code != Keyboard.KEY_NONE) return code;
+        try {
+            return Integer.parseInt(key);
+        } catch (NumberFormatException ignored) {}
+        return Keyboard.KEY_NONE;
+    }
+}

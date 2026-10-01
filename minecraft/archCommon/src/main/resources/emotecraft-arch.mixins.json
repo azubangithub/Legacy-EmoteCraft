@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.kosmx.emotes.arch.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "ConnectionHandlerMixin",
+    "EntityTrackerAccessor",
+    "PlayerAnimationProcessorMixin",
+    "ServerChunkCacheAccessor",
+    "ServerCommonPacketListenerAccessor",
+    "ServerPlayNetworkMixin"
+  ],
+  "client": [
+    "EmotePlayerMixin",
+    "EntityRenderDispatcherMixin",
+    "KeyEventMixin",
+    "LivingEntityRendererMixin",
+    "PlayerMixin",
+    "SoundEngineMixin",
+    "emf.EMFAnimationEntityContextMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
