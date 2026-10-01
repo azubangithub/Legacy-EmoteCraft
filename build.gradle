@@ -67,7 +67,7 @@ dependencies {
     embed 'com.zigythebird:mochafloats:1.1.3'
     embed 'net.raphimc:NoteBlockLib:3.1.1'
     implementation 'it.unimi.dsi:fastutil:8.5.12'
-    implementation 'io.netty:netty-all:4.1.32.Final'
+    implementation 'io.netty:netty-all:4.2.18.Final'
     
     // Optional LFGM integration (read-only dependency from sibling project)
     compileOnly files('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
