@@ -70,8 +70,15 @@ dependencies {
     implementation 'io.netty:netty-all:4.1.32.Final'
     
     // Optional LFGM integration (read-only dependency from sibling project)
-    compileOnly files('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
-    runtimeOnly files('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
+    def lfgmCandidates = [
+        file('../LegacyFemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar'),
+        file('../FemaleGenderMod-1.12.2/build/libs/LFGM-1.12.2-4.3.0-dev.jar')
+    ]
+    def lfgmJar = lfgmCandidates.find { it.exists() }
+    if (lfgmJar != null) {
+        compileOnly files(lfgmJar)
+        runtimeOnly files(lfgmJar)
+    }
     
     // MixinBooter for modern Mixin 0.8 + MixinExtras support on 1.12.2
     String mixin = 'zone.rong:mixinbooter:10.5'

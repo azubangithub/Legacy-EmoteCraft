@@ -1,77 +1,75 @@
-<div align="center">
+# Legacy Emotecraft (1.12.2 Forge)
 
-[![See on Modrinth - Emotecraft](https://img.shields.io/badge/See_on_Modrinth-Emotecraft-2ea44f?logo=modrinth)](https://modrinth.com/mod/emotecraft) 
-[![See on CurseForge (Fabric) - Emotecraft](https://img.shields.io/badge/See_on_CurseForge-Emotecraft_(Fabric)-orange?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/emotecraft)
-[![See on CurseForge (Forge/NeoForge) - Emotecraft](https://img.shields.io/badge/See_on_CurseForge-Emotecraft_(Forge/NeoForge)-orange?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/emotecraft-forge)
+[![Minecraft 1.12.2](https://img.shields.io/badge/Minecraft-1.12.2-blue.svg)](https://www.minecraft.net/)
+[![Forge](https://img.shields.io/badge/Forge-14.23.5.2860-orange.svg)](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](LICENSE)
 
-[![Discord](https://img.shields.io/discord/737216980095991838?label=Discord)](https://discord.gg/6NfdRuE)
-[![GitHub Release](https://img.shields.io/github/v/release/KosmX/emotes)](https://github.com/KosmX/emotes/releases/latest)
-</div>
-
-# Emotecraft  
-a.k.a. EmoteX 
-
-## Download
-When downloading the mod, please **only use** official downloads as others may be infected.  
-Official project (only download the mod from here):
-- [Github/KosmX/emotes](https://github.com/KosmX/emotes)
-- [Modrinth/Emotecraft](https://modrinth.com/mod/emotecraft)
-- [CurseForge/Emotecraft (Fabric)](https://www.curseforge.com/minecraft/mc-mods/emotecraft) and [CurseForge/Emotecraft (Forge/NeoForge)](https://www.curseforge.com/minecraft/mc-mods/emotecraft-forge)
-
-**Don't download it from any other source!**
-
-### Minecraft versions table
-| Minecraft | Emotecraft |
-|-----------|------------|
-| 1.21.1    | 2.4.x      |
-| 1.21.4    | 2.5.x      |
-| 1.21.5    | 2.6.x      |
-| 1.21.7    | 3.0.x      |
-
-## Development
+A backport of **Emotecraft 2.4.12** to **Minecraft 1.12.2 Forge**, bringing modern custom animations, bendable cuboids, and rich emote playback to 1.12.2.
 
 ---
-**Building from source:**
+
+## ✨ Features
+
+- **Full Modern Emotecraft Support**: Play custom emotes created for modern Emotecraft versions (`.json` format).
+- **Bendable Limbs & Body Parts**: Built-in bendable cuboids support for smooth, realistic body curvature and limb deformation during animations.
+- **Audio & NBS Playback**: Supports emote sound effects and Noteblock Studio (`.nbs`) music synchronized with animations.
+- **Hot-Reloading**: Automatically detects new or edited emotes placed in your `emotes/` folder without needing to restart the game.
+- **Interactive Radial & Full Menus**:
+  - **Fast Choose Wheel**: Quick radial menu for favorite emotes (default key: `B`).
+  - **All Emotes Screen**: Browse, preview, configure, and assign emotes to hotkeys or the wheel (default key: `H`).
+- **Legacy Female Gender Mod (LFGM) Integration**: Realistic breast physics that dynamically react to player model rotation, torso tilt, bending, and motion during emote animations.
+- **Multiplayer Synchronization**: Server-side and client-side networking for playing and syncing emotes with other players.
+
+---
+
+## 📋 Requirements
+
+- **Minecraft**: `1.12.2`
+- **Minecraft Forge**: `14.23.5.2860` or newer (Cleanroom Loader also supported)
+- **Dependencies**:
+  - [MixinBooter](https://www.curseforge.com/minecraft/mc-mods/mixinbooter) (v10.5 or newer)
+
+---
+
+## 🎮 Default Controls
+
+| Action | Default Key |
+|---|---|
+| Open Emote Wheel (Fast Menu) | `B` |
+| Open Full Emotes Menu | `H` |
+| Stop Current Emote | `C` |
+
+Keybindings can be customized in Minecraft's **Controls** settings under the **Emotecraft** category.
+
+---
+
+## 🛠️ Building from Source
+
+To compile the mod yourself:
+
 ```bash
-git clone https://github.com/KosmX/emotes.git
-cd emotes
+git clone https://github.com/azubangithub/Legacy-EmoteCraft.git
+cd Legacy-EmoteCraft
 ./gradlew build
 ```
-**Adding repository:**   
-Gradle Kotlin DSL:
-```kotlin
-maven("https://maven.kosmx.dev/")
-```
-  
-### Using in your mod/modpack  
 
-`Fabric` optionally depends on [**Mod Menu**](https://github.com/TerraformersMC/ModMenu) and FabricMC mods: **Fabric-Loader**, **Fabric-API**, **Minecraft**.  
-`Forge` version depends on [**PlayerAnimator**](https://github.com/KosmX/minecraftPlayerAnimator)   
-**bendy-lib** is compiled into the forge version  
-`NeoForge` version has no dependencies (except **NeoForge** and **Minecraft**)
+The compiled mod JAR will be located in `build/libs/`.
 
-### Emotes proxy
-Emotecraft is doing the emote synchronization using a server-side mod.  
-In some cases it's just impossible (like when playing on a community server)
-   
-This is where proxy API comes in as it can redirect communication when dedicated server-side mod isn't available.  
-If the server has Emotecraft (in any form) it will use that instead of using proxies.  
+---
 
-To implement a proxy-mod, see [emotes-proxy-template](https://github.com/KosmX/emotes-proxy-template).  
-Emotecraft will invoke the proxy instance when trying to send a message,  
-and you can invoke Emotecraft's receiver when you received a message. 
+## 👥 Credits & Authors
 
+- **1.12.2 Forge Port**: [azuban](https://github.com/azubangithub)
+- **Original Mod Authors**:
+  - **KosmX** (Original Creator & Main Developer)
+  - **dima_dencep**
+  - **ZigyTheBird**
+  - **Kale Ko**
 
-### Modules:
-`emotesAPI`: Common library used by Emotecraft, loader-independent  
-`executor`: The interface to be implemented by loader  
-`emotesAssets`: Common assets
-`emotesMc`: Common serverside Minecraft code  
-`emotesServer`: Server-side logic  
-`archCommon`: Common (both Fabric and NeoForge) Minecraft dependent stuff. using [architectury](https://github.com/architectury/architectury-loom) loom  
-`fabric`: Fabric implementation  
-`neoforge`: NeoForge implementation  
-`buildSrc`: Build logic utilities
+Original Mod Repository: [KosmX/emotes](https://github.com/KosmX/emotes)
 
-_More info can be found in ABOUT.md files inside module directory_
+---
 
+## 📄 License
+
+This project is licensed under the [GNU Lesser General Public License v3.0 (LGPL-3.0)](LICENSE) in accordance with the original mod's licensing.

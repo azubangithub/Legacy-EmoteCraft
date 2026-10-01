@@ -1,37 +1,80 @@
-#Gradle
+# ==========================================
+# Build & Gradle Cache
+# ==========================================
 .gradle/
 build/
 out/
 classes/
+bin/
 .out/
+.gradletasknamecache
+/artifacts/
+/.architectury-transformer/
+/buildSrc/.kotlin/
 
-#IDEA
+# ==========================================
+# IDEs & Editors
+# ==========================================
+# IntelliJ IDEA
 .idea/
 *.iml
 *.ipr
 *.iws
 
-#vscode
-.settings/
+# Visual Studio Code & Eclipse
 .vscode/
-bin/
+.settings/
 .classpath
 .project
 
-#fabric
-run/
-
-#project junk
-quark api.txt
-icon.blend1
-blender/emote_creator - Copy.blend1
-blender/emote_creator - Copy.blend
-blender/emote.json
-
-crowdin_old.yml
-
-*.blend1
-/.architectury-transformer/*
-/artifacts
-/buildSrc/.kotlin/
+# OS Metadata
 .DS_Store
+Thumbs.db
+ehthumbs.db
+
+# ==========================================
+# Runtime & Logs
+# ==========================================
+run/
+logs/
+*.log
+crash-reports/
+
+# ==========================================
+# Backup & Scratch Files
+# ==========================================
+*.bak
+*.old
+*.orig
+*.rej
+buildSrc.bak/
+build.gradle.kts.bak
+settings.gradle.kts.bak
+
+# ==========================================
+# Design & 3D Source Files (Not used for compilation)
+# ==========================================
+blend and other files/
+blender/
+other tools/
+*.blend
+*.blend1
+*.bbmodel
+*.xcf
+fastchoose.xcf
+
+# ==========================================
+# Unused Upstream Modules (1.12.2 Port uses only src/)
+# ==========================================
+minecraft/
+emotesAPI/
+emotesAssets/
+emotesMc/
+emotesServer/
+paper/
+
+# ==========================================
+# Project Junk & Misc
+# ==========================================
+quark api.txt
+crowdin_old.yml
